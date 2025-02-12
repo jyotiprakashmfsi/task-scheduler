@@ -1,6 +1,7 @@
 import { Router } from "express";
-import  * as fn from "../helpers/usersManage";
 import { authMiddleware } from "../middleware/authMiddleware";
+import { deleteUser, login, signup, update } from "../services/usersManage";
+// import * as fn from "../services/usersManage";
 
 const authRoutes= Router();
 
@@ -31,24 +32,12 @@ const authRoutes= Router();
 *              fname:
 *                type: string
 *                default: johndoe 
-*              lname:
-*                type: string
-*                default: johndoe 
 *              email:
 *                type: string
 *                default: johndoe@gmail.com
 *              password:
 *                type: string
-*                default: johnDoe20!@
-*              address:
-*                 type: string
-*                 default: India
-*              contact:
-*                 type: number
-*                 default: 1234567890
-*              gender:
-*                 type: string
-*                 default: male         
+*                default: johnDoe20!@      
 *     responses:
 *      201:
 *        description: Created
@@ -88,13 +77,13 @@ const authRoutes= Router();
 *        description: Not Found
 *      500:
 *        description: Server Error
-* /api/auth/{userid}:
+* /api/auth/{id}:
 *  delete:
 *     tags:
 *     - Auth Controller
 *     summary: Delete user by Id
 *     parameters:
-*      - name: userid
+*      - name: id
 *        in: path
 *        description: The unique Id of the user
 *        required: true
@@ -108,9 +97,10 @@ const authRoutes= Router();
 *      500:
 *        description: Server Error
 */
-authRoutes.post("/signup", fn.createUser)
-authRoutes.post("/login", fn.login)
-authRoutes.delete("/:userid", fn.deleteUser)
+authRoutes.post("/signup", signup)
+authRoutes.post("/login", login)
+authRoutes.delete("/:id", deleteUser)
+authRoutes.put("/:id", update)
 
 
 export default authRoutes;

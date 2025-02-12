@@ -44,11 +44,11 @@ const protectedRouter = Router();
 *       2. X-Stored-Token header (raw token)
 */
 
-protectedRouter.get('/test', authMiddleware, (req: Request & { user: any, authMethod: string }, res: Response) => {
+protectedRouter.get('/test', authMiddleware, (req: Request, res: Response) => {
   res.status(200).json({ 
     message: 'Protected route accessed',
-    user: req.user,
-    authMethod: req.authMethod
+    user: req,
+    authMethod: req
   });
 });
 
