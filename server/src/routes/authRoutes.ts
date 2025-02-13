@@ -1,7 +1,8 @@
 import { Router } from "express";
 import { authMiddleware } from "../middleware/authMiddleware";
-import { deleteUser, login, signup, update } from "../services/usersManage";
+import { deleteUser, update } from "../controller/usersManage";
 // import * as fn from "../services/usersManage";
+import { signup, login } from '../controller/authController';
 
 const authRoutes= Router();
 
@@ -77,30 +78,8 @@ const authRoutes= Router();
 *        description: Not Found
 *      500:
 *        description: Server Error
-* /api/auth/{id}:
-*  delete:
-*     tags:
-*     - Auth Controller
-*     summary: Delete user by Id
-*     parameters:
-*      - name: id
-*        in: path
-*        description: The unique Id of the user
-*        required: true
-*     responses:
-*      200:
-*        description: Removed
-*      400:
-*        description: Bad request
-*      404:
-*        description: Not Found
-*      500:
-*        description: Server Error
 */
 authRoutes.post("/signup", signup)
 authRoutes.post("/login", login)
-authRoutes.delete("/:id", deleteUser)
-authRoutes.put("/:id", update)
-
 
 export default authRoutes;

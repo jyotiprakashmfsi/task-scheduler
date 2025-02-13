@@ -3,23 +3,15 @@ import appRouter from "./routes/index";
 import swaggerUi from "swagger-ui-express";
 import swaggerJsdoc from "swagger-jsdoc";
 import cors from "cors";
+import './services/cron-job';
 
 require("dotenv").config();
-const cron = require("node-cron");
 
 const app = express();
 const port = 3000;
 
 app.use(cors());
 app.use(express.json());
-
-function sendReminderForServiceExpiring() {
-  console.log('Reminder for expiring service sent!') 
-}
-
-cron.schedule('1 * * * *', () => {
-  sendReminderForServiceExpiring();
-   });
 
 const swaggerOptions = {
   swaggerDefinition: {
@@ -39,13 +31,10 @@ const swaggerOptions = {
   apis: ["./src/routes/*.ts"],
 };
 
-const swaggerDocs = swaggerJsdoc(swaggerOptions);
 
-app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
-
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerJsdoc(swaggerOptions)));
 app.use("/api", appRouter);
 
-
 app.listen(port, () => {
-  console.log(`Server running at ${port}`);
+  console.log(`Server is running on port ${port}`);
 });

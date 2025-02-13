@@ -4,7 +4,7 @@ import { sequelize } from "../model/server";
 export const createTask = async (req: Request, res: Response) => {
   try {
     const { task_name, description, status, start_time, end_time, tags, repeat_freq, remind_time, colour } = req.body;
-    const user_id = req.body.userId;
+    const user_id = req.body.user_id;
 
     const [task] = await sequelize.query(
       'INSERT INTO Tasks (task_name, description, status, start_time, end_time, tags, repeat_freq, remind_time, colour, user_id, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',

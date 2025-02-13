@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { authMiddleware } from "../middleware/authMiddleware";
-import { createTask, deleteTask, getTaskById, getTasks, markDone, updateTask } from "../services/tasksManage";
+import { createTask, deleteTask, getTaskById, getTasks, markDone, updateTask } from "../controller/tasksManage";
 
 const taskRoutes = Router();
 
@@ -44,6 +44,9 @@ const taskRoutes = Router();
 *         colour:
 *           type: string
 *           description: Task color code
+*         user_id:
+*           type: integer
+*           description: UserId of user creating task   
 * /api/tasks:
 *   post:
 *     tags:
@@ -51,6 +54,13 @@ const taskRoutes = Router();
 *     summary: Create a new task
 *     security:
 *       - Authorization: []
+*     parameters:
+*       - in: header
+*         name: Authorisation
+*         required: true
+*         schema:
+*           type: string
+*         description: JWT token
 *     requestBody:
 *       required: true
 *       content:
@@ -72,6 +82,13 @@ const taskRoutes = Router();
 *     summary: Get all tasks for authenticated user
 *     security:
 *       - Authorization: []
+*     parameters:
+*       - in: header
+*         name: Authorisation
+*         required: true
+*         schema:
+*           type: string
+*         description: JWT token
 *     responses:
 *       200:
 *         description: List of tasks
@@ -93,6 +110,12 @@ const taskRoutes = Router();
 *     security:
 *       - Authorization: []
 *     parameters:
+*       - in: header
+*         name: Authorisation
+*         required: true
+*         schema:
+*           type: string
+*         description: JWT token
 *       - name: id
 *         in: path
 *         description: Task ID
@@ -125,6 +148,12 @@ const taskRoutes = Router();
 *         required: true
 *         schema:
 *           type: integer
+*       - in: header
+*         name: Authorisation
+*         required: true
+*         schema:
+*           type: string
+*         description: JWT token
 *     requestBody:
 *       required: true
 *       content:
@@ -155,6 +184,12 @@ const taskRoutes = Router();
 *         required: true
 *         schema:
 *           type: integer
+*       - in: header
+*         name: Authorisation
+*         required: true
+*         schema:
+*           type: string
+*         description: JWT token
 *     responses:
 *       200:
 *         description: Task deleted successfully
@@ -178,6 +213,12 @@ const taskRoutes = Router();
 *         required: true
 *         schema:
 *           type: integer
+*       - in: header
+*         name: Authorisation
+*         required: true
+*         schema:
+*           type: string
+*         description: JWT token
 *     responses:
 *       200:
 *         description: Task marked as done

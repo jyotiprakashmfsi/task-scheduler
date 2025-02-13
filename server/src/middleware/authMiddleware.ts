@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
-const secretKey = process.env.JWT_SECRET_TOKEN || '43jrb43kjtkjw5eg';
+const secretKey = "34kj34lhtjh34jlkth3kj4th32jhrjwlrnljnrkrje3rnj3krk";
 
 export const authMiddleware = async (req: Request, res: Response, next: NextFunction) : Promise<any>=> {
   try {
