@@ -3,6 +3,7 @@ import { Response } from "express";
 import { Request } from "express";
 import { sequelize } from "../model/server";
 import { hashPassword } from '../utils/passwordHash';
+import { getLocalTimeString } from "../helper/date";
 
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
@@ -14,7 +15,7 @@ export const signup = async (req: Request, res: Response) => {
     const { fname, email, password } = req.body;
     const hashedPassword = await hashPassword(password);
     const user= sequelize.query('INSERT INTO Users (fname, email, password, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?)', {
-      replacements: [fname, email, hashedPassword, new Date(), new Date()],
+      replacements: [fname, email, hashedPassword, getLocalTimeString(new Date()), getLocalTimeString(new Date())],
       type: sequelize.QueryTypes.INSERT
     })
     res.status(201).json({ message: "User created successfully" });
@@ -46,12 +47,38 @@ export const login = async (req: Request, res: Response) : Promise<any> => {
   }
 };
 
+export const getAllUsers = async(req: Request, res: Response) => {
+    try {
+      const users= await sequelize.query('SELECT * FROM Users', {
+        type: sequelize.QueryTypes.SELECT
+      })
+      res.status(200).json({ users });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: error });
+    }
+}
+
+export const getUserById = async(req: Request, res: Response) => {
+    try {
+      const {id} = req.params;
+      const [user] = await sequelize.query('SELECT * FROM Users WHERE id = ?', {
+        replacements: [id],
+        type: sequelize.QueryTypes.SELECT
+      })
+      res.status(200).json({ user });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: error });
+    }
+}
+
 export const update = async(req: Request, res: Response) => {
     try {
       const {email, fname, contact, dob } = req.body;
-      // const hashedPassword = await hashPassword(password);
-      const [user]= sequelize.query('UPDATE Users SET fname = ?, email = ?, contact = ?, dob = ?, updatedAt = ? WHERE id = ?', {
-        replacements: [fname, email, req.params.id, contact, dob, new Date()],
+      const {id} = req.params;
+      const [user]= sequelize.query(`UPDATE Users SET fname = ?, email = ?, contact = ?, dob = ?, updatedAt = ? WHERE id = ?`, {
+        replacements: [fname, email, contact || '', dob ? getLocalTimeString(new Date(dob)) : '', getLocalTimeString(new Date()), id],
         type: sequelize.QueryTypes.UPDATE
       })
       res.status(201).json({ message: "User updated successfully", user });
@@ -63,8 +90,9 @@ export const update = async(req: Request, res: Response) => {
 
 export const deleteUser = async(req: Request, res: Response) => {
   try {
+    const {id} = req.params;
     const [user] = sequelize.query('DELETE FROM Users WHERE id = ?', {
-      replacements: [req.params.id],
+      replacements: [id],
       type: sequelize.QueryTypes.DELETE
     })
     res.status(201).json({ message: "User deleted successfully", user });

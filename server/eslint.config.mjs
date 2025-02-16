@@ -1,7 +1,7 @@
-const hub = require('@mindfiredigital/eslint-plugin-hub');
-const globals = require('globals');
+import hub from '@mindfiredigital/eslint-plugin-hub';
+import globals from 'globals';
 
-module.exports = [
+export default [
   {
     languageOptions: {
       globals: globals.builtin,

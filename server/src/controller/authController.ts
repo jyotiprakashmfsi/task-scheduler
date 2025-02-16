@@ -27,11 +27,15 @@ export const signup = async (req: Request, res: Response) => {
 export const login = async (req: Request, res: Response) : Promise<any> => {
   try {
     const { email, password } = req.body;
+    console.log("received cred: ", email, password);
     const [user] = await sequelize.query('SELECT * FROM Users WHERE email = ?', {
       replacements: [email],
       type: sequelize.QueryTypes.SELECT
     })
     console.log("user found", user);
+    if(!user){
+        return res.status(404).json({message: "Use a valid email or password"});
+    }
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       return res.status(401).json({ message: "Invalid email or password" });
@@ -40,7 +44,17 @@ export const login = async (req: Request, res: Response) : Promise<any> => {
     const token = jwt.sign({ userId: user.id, email: user.email }, secretKey, {
       expiresIn: "3h",
     });
-    res.status(200).json({ token: token });
+    
+    const safeUser = {
+      id: user.id,
+      email: user.email,
+      fname: user.fname,
+    };
+    
+    res.status(200).json({ 
+      token: token,
+      user: safeUser
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: error });

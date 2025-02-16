@@ -27,10 +27,10 @@ const User = sequelize.define(
       allowNull: false,
     },
     contact: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
     },
     dob: {
-      type: DataTypes.DATE,
+      type: DataTypes.STRING,
       allowNull: true,
     },
     createdAt: {

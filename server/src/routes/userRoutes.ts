@@ -1,27 +1,29 @@
 import { Router } from "express";
 import { authMiddleware } from "../middleware/authMiddleware";
-import { deleteUser, update } from "../controller/usersManage";
+import { deleteUser, getUserById, update } from "../controller/usersManage";
 
 const userRoutes= Router();
 
 /**
 * @swagger
-* components:
-*   securitySchemes:
-*     Authorization:
-*       type: string
-*       scheme: bearer
-*       bearerFormat: JWT
 * /api/users/{id}:
 *  delete:
 *     tags:
 *     - User Controller
 *     summary: Delete user by Id
 *     parameters:
-*      - name: id
-*        in: path
-*        description: The unique Id of the user
-*        required: true
+*       - name: id
+*         in: path
+*         description: Task ID
+*         required: true
+*         schema:
+*           type: integer
+*       - in: header
+*         name: Authorisation
+*         required: true
+*         schema:
+*           type: string
+*         description: JWT token
 *     responses:
 *      200:
 *        description: Removed
@@ -38,22 +40,24 @@ userRoutes.delete("/:id", authMiddleware, deleteUser)
 
 /**
 * @swagger
-* components:
-*   securitySchemes:
-*     Authorization:
-*       type: string
-*       scheme: bearer
-*       bearerFormat: JWT 
 * /api/users/{id}:
 *  put:
 *     tags:
 *     - User Controller
 *     summary: Update user by Id
 *     parameters:
-*      - name: id
-*        in: path
-*        description: The unique Id of the user
-*        required: true
+*       - name: id
+*         in: path
+*         description: Task ID
+*         required: true
+*         schema:
+*           type: integer
+*       - in: header
+*         name: Authorisation
+*         required: true
+*         schema:
+*           type: string
+*         description: JWT token
 *     requestBody:
 *       required: true
 *       content:
@@ -87,5 +91,37 @@ userRoutes.delete("/:id", authMiddleware, deleteUser)
 */
 userRoutes.put("/:id", authMiddleware, update)
 
+/**
+* @swagger
+* /api/users/{id}:
+*  get:
+*     tags:
+*     - User Controller
+*     summary: Get user by Id
+*     parameters:
+*       - name: id
+*         in: path
+*         description: Task ID
+*         required: true
+*         schema:
+*           type: integer
+*       - in: header
+*         name: Authorisation
+*         required: true
+*         schema:
+*           type: string
+*         description: JWT token
+*     responses:
+*      200:
+*        description: Successfully accessed protected route
+*      401:
+*        description: Unauthorized - No token provided or invalid token
+*      404: 
+*        description: User not found
+*      500:
+*        description: Internal server error
+*/
+
+userRoutes.get("/:id", authMiddleware, getUserById)
 
 export default userRoutes;

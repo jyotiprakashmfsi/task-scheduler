@@ -1,35 +1,49 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
+import { BrowserRouter, Route, Routes } from "react-router";
+import HomeComponent from "./pages/Homepage";
+import { Signup } from "./pages/Auth/signup";
+import { Login } from "./pages/Auth/login";
+// import { createContext } from "react";
+import React from 'react';
+import { UserProvider } from './context/UserContext';
+import ProtectedRoute from "./componnets/protected/protected-route";
+import TasksPage from "./pages/Tasks";
+import NotificationComponent from "./componnets/notification/notification";
+import SettingsPage from "./pages/Settings";
+
+// const UserContext = createContext(null);
 
 function App() {
-  const [count, setCount] = useState(0)
+  // const [cookies, setCookie] = useCookies(['token'])
+  // // const [user, setUser] = useState(null);
+  // const handleLogin = (token)=>{
+  //   setCookie('token', token)
+  //   console.log(token)
+  // }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <UserProvider>
+      <div className="flex ">
+
+      {/* <Sidebar/> */}
+        <BrowserRouter>
+        <div className="w-screen">
+
+          <Routes>
+            <Route path="/" element={<HomeComponent />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<Login />} />
+            <Route element={<ProtectedRoute />}>
+              <Route path="/dashboard" element={<TasksPage />} />
+              <Route path="/settings" element={<SettingsPage />} />
+            </Route>
+          </Routes>
+        </div>
+        <NotificationComponent />
+        </BrowserRouter>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </UserProvider>
+  );
 }
 
-export default App
+export default App;

@@ -1,13 +1,19 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+import dotenv from "dotenv"
 
-const secretKey = "34kj34lhtjh34jlkth3kj4th32jhrjwlrnljnrkrje3rnj3krk";
+dotenv.config()
+
+require("dotenv").config();
+
+
+const secretKey = process.env.JWT_SECRET_TOKEN || '';
 
 export const authMiddleware = async (req: Request, res: Response, next: NextFunction) : Promise<any>=> {
   try {
     const authHeader = req.header('Authorisation') || req.header('authorisation');
-    console.log("All Headers:", req.headers);
-    console.log("Authorization header:", authHeader);
+    // console.log("All Headers:", req.headers);
+    // console.log("Authorization header:", authHeader);
   
     if (!authHeader) {
       return res.status(401).json({ 
@@ -16,6 +22,8 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
     }
 
     const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : authHeader;
+
+    console.log("Secret Key: ", secretKey)
   
     jwt.verify(token, secretKey, (err: any, user: any) => {
       if (err) {

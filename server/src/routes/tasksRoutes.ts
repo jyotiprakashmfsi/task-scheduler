@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { authMiddleware } from "../middleware/authMiddleware";
-import { createTask, deleteTask, getTaskById, getTasks, markDone, updateTask } from "../controller/tasksManage";
+import { createTask, deleteTask, getTaskById, getTasks, markDone, unmarkDone, updateTask } from "../controller/tasksManage";
 
 const taskRoutes = Router();
 
@@ -76,6 +76,7 @@ const taskRoutes = Router();
 *         description: Unauthorized
 *       500:
 *         description: Server Error
+* /api/tasks/all/{user_id}:
 *   get:
 *     tags:
 *     - Task Controller
@@ -89,6 +90,12 @@ const taskRoutes = Router();
 *         schema:
 *           type: string
 *         description: JWT token
+*       - name: user_id
+*         in: path
+*         description: User ID
+*         required: true
+*         schema:
+*           type: integer
 *     responses:
 *       200:
 *         description: List of tasks
@@ -228,14 +235,44 @@ const taskRoutes = Router();
 *         description: Task not found
 *       500:
 *         description: Server Error
+* /api/tasks/{id}/unmark-done:
+*   put:
+*     tags:
+*     - Task Controller
+*     summary: Mark task as todo by ID
+*     security:
+*       - Authorization: []
+*     parameters:
+*       - name: id
+*         in: path
+*         description: Task ID
+*         required: true
+*         schema:
+*           type: integer
+*       - in: header
+*         name: Authorisation
+*         required: true
+*         schema:
+*           type: string
+*         description: JWT token
+*     responses:
+*       200:
+*         description: Task marked as todo
+*       401:
+*         description: Unauthorized
+*       404:
+*         description: Task not found
+*       500:
+*         description: Server Error
 */
 
 // Routes with authentication middleware
 taskRoutes.post("/", authMiddleware, createTask);
-taskRoutes.get("/", authMiddleware, getTasks);
+taskRoutes.get("/all/:user_id", authMiddleware, getTasks);
 taskRoutes.get("/:id", authMiddleware, getTaskById);
 taskRoutes.put("/:id", authMiddleware, updateTask);
 taskRoutes.delete("/:id", authMiddleware, deleteTask);
 taskRoutes.put("/:id/mark-done", authMiddleware, markDone);
+taskRoutes.put("/:id/unmark-done", authMiddleware, unmarkDone);
 
 export default taskRoutes;

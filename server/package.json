@@ -33,6 +33,7 @@
     "typescript": "^5.7.3"
   },
   "devDependencies": {
+    "@mindfiredigital/eslint-plugin-hub": "^1.9.1",
     "@types/cors": "^2.8.17",
     "@types/cron": "^2.0.1",
     "@types/jsonwebtoken": "^9.0.8",

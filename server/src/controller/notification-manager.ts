@@ -13,13 +13,13 @@ interface Task {
 
 export const checkApproachingTasks = async (req: Request, res: Response): Promise<void> => {
   const now = new Date();
-  const twentyFourHoursFromNow = new Date(now.getTime() + 60 * 60 * 1000);
-  
+  const fiveMinsFromNow = new Date(now.getTime() + 5 * 60 * 1000);
+  const {id} = req.params;
   try {
-    const [tasks] = await sequelize.query(
-      'SELECT * FROM Tasks WHERE status = "pending" AND end_time BETWEEN ? AND ?',
+    const tasks = await sequelize.query(
+      'SELECT * FROM Tasks WHERE status = "pending" AND end_time BETWEEN ? AND ? AND user_id = ?',
       {
-        replacements: [now, twentyFourHoursFromNow],
+        replacements: [now, fiveMinsFromNow, id],
         type: sequelize.QueryTypes.SELECT
       }
     ) as [Task[], any];
@@ -33,12 +33,12 @@ export const checkApproachingTasks = async (req: Request, res: Response): Promis
 
 export const checkOverdueTasks = async (req: Request, res: Response): Promise<void> => {
   const now = new Date();
-  
+  const {id} = req.params;
   try {
-    const [tasks] = await sequelize.query(
-      'SELECT * FROM Tasks WHERE status = "pending" AND end_time < ?',
+    const tasks = await sequelize.query(
+      'SELECT * FROM Tasks WHERE status = "pending" AND end_time < ? AND user_id = ?',
       {
-        replacements: [now],
+        replacements: [now, id],
         type: sequelize.QueryTypes.SELECT
       }
     ) as [Task[], any];
