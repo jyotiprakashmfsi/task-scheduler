@@ -3,7 +3,6 @@ import appRouter from "./routes/index";
 import swaggerUi from "swagger-ui-express";
 import swaggerJsdoc from "swagger-jsdoc";
 import cors from "cors";
-import './services/cron-job';
 import dotenv from "dotenv"
 
 dotenv.config()
