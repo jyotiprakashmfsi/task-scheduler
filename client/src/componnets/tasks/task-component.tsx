@@ -262,7 +262,7 @@ export default function TaskComponent() {
                     {task.tags && (
                       <div className="flex flex-wrap gap-1">
                         {task.tags
-                          .slice(1, -1)
+                          .slice(0, -1)
                           .split(", ")
                           .map((tag, index) => (
                             <span
