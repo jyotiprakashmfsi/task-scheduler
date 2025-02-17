@@ -3,11 +3,18 @@ import { Response } from "express";
 import { Request } from "express";
 import { sequelize } from "../model/server";
 import { hashPassword } from '../utils/passwordHash';
+import dotenv from "dotenv"
+
+dotenv.config()
+
+require("dotenv").config();
+
+
+const secretKey = process.env.JWT_SECRET_TOKEN || '';
 
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const jwt = require("jsonwebtoken");
-const secretKey = "34kj34lhtjh34jlkth3kj4th32jhrjwlrnljnrkrje3rnj3krk";
 
 export const signup = async (req: Request, res: Response) => {
   try {

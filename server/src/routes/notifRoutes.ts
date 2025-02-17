@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { checkApproachingTasks, checkOverdueTasks } from "../controller/notification-manager";
+import { checkApproachingTasks, checkOverdueTasks } from "../controller/notificationController";
 
 
 const notifRouter = Router();
