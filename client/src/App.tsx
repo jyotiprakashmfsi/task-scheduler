@@ -39,7 +39,7 @@ function App() {
             </Route>
           </Routes>
         </div>
-        <NotificationComponent />
+        {/* <NotificationComponent /> */}
         </BrowserRouter>
       </div>
     </UserProvider>

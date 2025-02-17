@@ -42,15 +42,45 @@ export const getTasks = async (req: Request, res: Response) => {
   try {
     const {user_id} = req.params;
     console.log("user_id: ", user_id);
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 10;
+    const offset = (page - 1) * limit;
 
     const tasks = await sequelize.query(
-      'SELECT * FROM Tasks WHERE user_id = ? ORDER BY createdAt DESC',
+      `SELECT * FROM Tasks 
+       WHERE user_id = ? 
+       ORDER BY 
+         CASE 
+           WHEN status = 'pending' AND end_time < NOW() THEN 1
+           WHEN status = 'pending' AND end_time >= NOW() THEN 2
+           ELSE 3 
+         END,
+         end_time ASC
+       LIMIT ? OFFSET ?`,
+      {
+        replacements: [user_id, limit, offset],
+        type: sequelize.QueryTypes.SELECT
+      }
+    );
+
+    const [{ total_count }] = await sequelize.query(
+      `SELECT COUNT(*) as total_count FROM Tasks 
+       WHERE user_id = ?`,
       {
         replacements: [user_id],
         type: sequelize.QueryTypes.SELECT
       }
     );
-    res.status(200).json(tasks);
+
+    res.status(200).json({
+      tasks,
+      pagination: {
+        total: total_count,
+        page,
+        limit,
+        total_pages: Math.ceil(total_count / limit)
+      }
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: error });

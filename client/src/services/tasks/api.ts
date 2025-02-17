@@ -16,6 +16,16 @@ interface Task{
     user_id:number
 }
 
+interface PaginatedResponse {
+  tasks: Task[];
+  pagination: {
+    total: number;
+    page: number;
+    limit: number;
+    total_pages: number;
+  };
+}
+
 export class tasksService {
   static async createTask(data: Task, jwt: string) {
     try {
@@ -37,9 +47,9 @@ export class tasksService {
     }
   }
 
-  static async getTasks(id: number, jwt: string) {
+  static async getTasks(id: number, jwt: string, page: number = 1, limit: number = 10): Promise<PaginatedResponse> {
     try {
-      const response = await fetch(`${api_url}/api/tasks/all/${id}`, {
+      const response = await fetch(`${api_url}/api/tasks/all/${id}?page=${page}&limit=${limit}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -49,11 +59,10 @@ export class tasksService {
       });
 
       const result = await response.json();
-      // console.log("API Tasks fetched:", result)
       return result;
     } catch (error) {
         console.log(error)
-        return error;
+        throw error;
     }
   }
 

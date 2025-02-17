@@ -76,7 +76,7 @@ const taskRoutes = Router();
 *         description: Unauthorized
 *       500:
 *         description: Server Error
-* /api/tasks/all/{user_id}:
+* /api/tasks/all/{user_id}?page={page}&limit={limit}:
 *   get:
 *     tags:
 *     - Task Controller
@@ -94,8 +94,18 @@ const taskRoutes = Router();
 *         in: path
 *         description: User ID
 *         required: true
+*       - in: query
+*         name: page
+*         required: false
 *         schema:
 *           type: integer
+*         description: Page number
+*       - in: query
+*         name: limit
+*         required: false
+*         schema:
+*           type: integer
+*         description: Number of items per page
 *     responses:
 *       200:
 *         description: List of tasks
