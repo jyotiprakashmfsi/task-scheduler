@@ -1,103 +1,47 @@
-// import { db } from '/model.js';
-import { Response } from "express";
-import { Request } from "express";
-import { sequelize } from "../model/server";
-import { hashPassword } from '../utils/passwordHash';
-import { getLocalTimeString } from "../helper/date";
+import { Response, Request } from "express";
+import { UserService } from "../services/userService";
 
-const bcrypt = require("bcrypt");
-const saltRounds = 10;
-const jwt = require("jsonwebtoken");
-const secretKey = process.env.JWT_SECRET_TOKEN || "34kj34lhtjh34jlkth3kj4th32jhrjwlrnljnrkrje3rnj3krk";
+const userService = new UserService();
 
-export const signup = async (req: Request, res: Response) => {
+export const getAllUsers = async (req: Request, res: Response) => {
   try {
-    const { fname, email, password } = req.body;
-    const hashedPassword = await hashPassword(password);
-    const user= sequelize.query('INSERT INTO Users (fname, email, password, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?)', {
-      replacements: [fname, email, hashedPassword, getLocalTimeString(new Date()), getLocalTimeString(new Date())],
-      type: sequelize.QueryTypes.INSERT
-    })
-    res.status(201).json({ message: "User created successfully" });
+    const users = await userService.getAllUsers();
+    res.status(200).json({ users });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: error });
   }
 };
 
-export const login = async (req: Request, res: Response) : Promise<any> => {
+export const getUserById = async (req: Request, res: Response): Promise<any> => {
   try {
-    const { email, password } = req.body;
-    const [user] = await sequelize.query('SELECT * FROM Users WHERE email = ?', {
-      replacements: [email],
-      type: sequelize.QueryTypes.SELECT
-    })
-    console.log("user found", user);
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) {
-      return res.status(401).json({ message: "Invalid email or password" });
-    }
-    const token = jwt.sign({ userId: user.id, email: user.email }, secretKey, {
-      expiresIn: "1h",
-    });
-    res.status(200).json({ token: token });
+    const { id } = req.params;
+    const user = await userService.getUserById(id);
+    res.status(200).json({ user });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: error });
   }
 };
 
-export const getAllUsers = async(req: Request, res: Response) => {
-    try {
-      const users= await sequelize.query('SELECT * FROM Users', {
-        type: sequelize.QueryTypes.SELECT
-      })
-      res.status(200).json({ users });
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ message: error });
-    }
-}
-
-export const getUserById = async(req: Request, res: Response) => {
-    try {
-      const {id} = req.params;
-      const [user] = await sequelize.query('SELECT * FROM Users WHERE id = ?', {
-        replacements: [id],
-        type: sequelize.QueryTypes.SELECT
-      })
-      res.status(200).json({ user });
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ message: error });
-    }
-}
-
-export const update = async(req: Request, res: Response) => {
-    try {
-      const {email, fname, contact, dob } = req.body;
-      const {id} = req.params;
-      const [user]= sequelize.query(`UPDATE Users SET fname = ?, email = ?, contact = ?, dob = ?, updatedAt = ? WHERE id = ?`, {
-        replacements: [fname, email, contact || '', dob ? getLocalTimeString(new Date(dob)) : '', getLocalTimeString(new Date()), id],
-        type: sequelize.QueryTypes.UPDATE
-      })
-      res.status(201).json({ message: "User updated successfully", user });
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ message: error });
-    }
-}
-
-export const deleteUser = async(req: Request, res: Response) => {
+export const update = async (req: Request, res: Response): Promise<any> => {
   try {
-    const {id} = req.params;
-    const [user] = sequelize.query('DELETE FROM Users WHERE id = ?', {
-      replacements: [id],
-      type: sequelize.QueryTypes.DELETE
-    })
-    res.status(201).json({ message: "User deleted successfully", user });
+    const { id } = req.params;
+    const result = await userService.updateUser(id, req.body);
+    res.status(200).json({ message: "User updated successfully" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: error });
   }
-}
+};
+
+export const deleteUser = async (req: Request, res: Response): Promise<any> => {
+  try {
+    const { id } = req.params;
+    const result = await userService.deleteUser(id);
+    res.status(200).json({ message: "User deleted successfully" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: error });
+  }
+};
