@@ -1,6 +1,10 @@
 import React from 'react';
 import { Task } from '../../types/task';
-import { getLocalTimeString } from "../../services/date/date";
+
+/**
+ * Modal for tasks component
+ * User must be logged in to view this component
+ */
 
 interface TaskModalProps {
     isOpen: boolean;

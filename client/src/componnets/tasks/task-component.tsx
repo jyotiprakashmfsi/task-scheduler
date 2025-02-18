@@ -7,6 +7,11 @@ import { Task } from "../../types/task";
 import TaskList from "./task-list";
 import TaskModal from "./task-modal";
 
+/**
+ * Component to display, modify, and delete tasks
+ * User must be logged in to view this component
+ */
+
 export default function TaskComponent() {
   const { user, token } = useUser();
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -144,6 +149,14 @@ export default function TaskComponent() {
       setIsLoading(false);
     }
   };
+
+  if(isLoading){
+    return (
+      <div>
+        Loading...
+      </div>
+    )
+  }
 
   return (
     <div className="w-full text-black">

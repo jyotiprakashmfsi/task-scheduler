@@ -1,15 +1,6 @@
-// import.meta.env.VITE_API_BASE_URL
+import { User } from "../../types/user";
 
 const api_url = import.meta.env.VITE_API_BASE_URL
-
-interface User{
-    id?: number,
-    fname?: string,
-    email?: string,
-    password?: string
-    contact?: string
-    dob?: string
-}
 
 export class usersService {
   static async getUserById(id: number, jwt: string) {

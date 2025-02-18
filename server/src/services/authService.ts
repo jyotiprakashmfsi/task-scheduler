@@ -1,4 +1,4 @@
-import { hashPassword } from '../utils/passwordHash';
+import { hashPassword } from '../helper/passwordHash';
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { AuthRepository } from '../repository/authRepository';

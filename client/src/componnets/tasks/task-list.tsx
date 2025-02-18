@@ -3,6 +3,11 @@ import { Task } from '../../types/task';
 import { getLocalTimeString, isOverdue } from "../../services/date/date";
 import { RiMoreLine } from "react-icons/ri";
 
+/**
+ * Lists for tasks component
+ * User must be logged in to view this component
+ */
+
 interface TaskListProps {
     tasks: Task[];
     onEdit: (task: Task) => void;
