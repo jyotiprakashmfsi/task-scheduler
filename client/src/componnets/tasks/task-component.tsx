@@ -103,6 +103,7 @@ export default function TaskComponent() {
 
     try {
       if (editingTask?.id) {
+        console.log("taskToSend", taskToSend)
         await tasksService.updateTask(taskToSend, editingTask.id, token || "");
       } else {
         await tasksService.createTask(taskToSend, token || "");
@@ -287,8 +288,8 @@ export default function TaskComponent() {
                     }
                     className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors duration-200 ${
                       task.status === "pending"
-                        ? "bg-black text-white hover:bg-green-800"
-                        : "bg-gray-300 text-black hover:bg-gray-400"
+                        ? "bg-indigo-600 text-white hover:bg-indigo-800"
+                        : "bg-gray-200 text-indigo-700 hover:bg-gray-300"
                     }`}
                   >
                     {task.status === "pending"
@@ -310,7 +311,7 @@ export default function TaskComponent() {
                     </button>
                     <div
                       id={`${task.id}`}
-                      className="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border z-10"
+                      className="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-10"
                     >
                       <button
                         className="w-full text-left px-4 py-2 hover:bg-gray-50 text-sm flex items-center gap-2"

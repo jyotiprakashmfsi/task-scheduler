@@ -21,18 +21,18 @@ export function Login() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     try {
       const response = await authService.login(formData);
       console.log("login response:", response);
-      
+
       if (response.token && response.user) {
         setToken(response.token);
         setUser(response.user);
-        console.log("token", response.token)
-        console.log("user", response.user)
+        console.log("token", response.token);
+        console.log("user", response.user);
         console.log("Login successful");
-        navigate('/dashboard');
+        navigate("/dashboard");
       } else {
         setError("Invalid email or password");
       }
@@ -48,6 +48,7 @@ export function Login() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="flex justify-between"></div>
       <div className="max-w-md w-full space-y-8">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">

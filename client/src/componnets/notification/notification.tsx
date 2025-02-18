@@ -115,7 +115,7 @@ const NotificationComponent: React.FC = () => {
                   {notifications.map((task) => (
                     <div
                       key={task.id}
-                      className={`bg-white rounded-lg p-3 hover:bg-gray-50 transition-colors duration-200 border-l-4 relative ${
+                      className={`bg-gray-50 rounded-lg p-3 hover:bg-gray-100 transition-colors duration-200 border-l-4 relative ${
                         task.notificationType === "overdue"
                           ? "border-red-500"
                           : "border-yellow-500"
