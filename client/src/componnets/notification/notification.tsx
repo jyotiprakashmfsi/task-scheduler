@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { NotificationApi } from "../../services/notification/api";
 import { useUser } from "../../context/UserContext";
-import { Task } from "../tasks/task-component";
 import { tasksService } from "../../services/tasks/api";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { IoNotifications } from "react-icons/io5";
+import { Task } from "../../types/task";
 
 interface TaskWithType extends Task {
   notificationType: "approaching" | "overdue";

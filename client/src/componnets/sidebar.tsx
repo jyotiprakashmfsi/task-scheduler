@@ -1,12 +1,10 @@
 import {
   RiDashboardLine,
-  RiHistoryLine,
   RiSettings4Line,
   RiHomeSmile2Line,
   RiUserLine,
   RiLogoutBoxRLine,
   RiMenuLine,
-  RiCloseLine,
 } from "react-icons/ri";
 import { useUser } from "../context/UserContext";
 import { useState, useEffect } from "react";
