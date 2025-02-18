@@ -1,36 +1,23 @@
+import { UserRepository } from "../repository/userRepository";
+import { UserUpdateData } from "../types/user";
 import { sequelize } from "../model/server";
 import { getLocalTimeString } from "../helper/date";
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-interface UserUpdateData {
-    email?: string;
-    fname?: string;
-    contact?: string;
-    dob?: string;
-}
-
 export class UserService {
+    private userRepository: UserRepository;
+
+    constructor() {
+        this.userRepository = new UserRepository();
+    }
 
     async getAllUsers() {
-        const users = await sequelize.query(
-            'SELECT * FROM Users',
-            {
-                type: sequelize.QueryTypes.SELECT
-            }
-        );
-        return users;
+        return await this.userRepository.getAllUsers();
     }
 
     async getUserById(userId: string) {
-        const [user] = await sequelize.query(
-            'SELECT * FROM Users WHERE id = ?',
-            {
-                replacements: [userId],
-                type: sequelize.QueryTypes.SELECT
-            }
-        );
-        return user;
+        return await this.userRepository.getUserById(userId);
     }
 
     async updateUser(userId: string, updateData: UserUpdateData) {
@@ -40,21 +27,7 @@ export class UserService {
             updateData.dob = getLocalTimeString(new Date(updateData.dob));
         }
 
-        const [result] = await sequelize.query(
-            'UPDATE Users SET fname = ?, email = ?, contact = ?, dob = ?, updatedAt = ? WHERE id = ?',
-            {
-                replacements: [
-                    updateData.fname,
-                    updateData.email,
-                    updateData.contact || '',
-                    updateData.dob || '',
-                    currentTime,
-                    userId
-                ],
-                type: sequelize.QueryTypes.UPDATE
-            }
-        );
-        return result;
+        return await this.userRepository.updateUser(userId, updateData);
     }
 
     async deleteUser(userId: string) {
