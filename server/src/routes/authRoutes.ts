@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { authMiddleware } from "../middleware/authMiddleware";
-import { deleteUser, update } from "../controller/usersManage";
+import { deleteUser, update } from "../controller/usersController";
 // import * as fn from "../services/usersManage";
 import { signup, login } from '../controller/authController';
 
@@ -14,7 +14,7 @@ const authRoutes= Router();
 *       type: string
 *       scheme: bearer
 *       bearerFormat: JWT
-* /api/auth/signup:
+* /v1//api/auth/signup:
 *   post:
 *     tags:
 *     - Auth Controller
@@ -48,7 +48,7 @@ const authRoutes= Router();
 *        description: Not Found
 *      500:
 *        description: Server Error
-* /api/auth/login:
+* /v1/api/auth/login:
 *   post:
 *     tags:
 *     - Auth Controller
