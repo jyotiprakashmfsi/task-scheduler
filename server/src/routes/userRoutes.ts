@@ -1,12 +1,12 @@
 import { Router } from "express";
 import { authMiddleware } from "../middleware/authMiddleware";
-import { deleteUser, getUserById, update } from "../controller/usersManage";
+import { deleteUser, getUserById, update } from "../controller/usersController";
 
 const userRoutes= Router();
 
 /**
 * @swagger
-* /api/users/{id}:
+* /v1/api/users/{id}:
 *  delete:
 *     tags:
 *     - User Controller
@@ -40,7 +40,7 @@ userRoutes.delete("/:id", authMiddleware, deleteUser)
 
 /**
 * @swagger
-* /api/users/{id}:
+* /v1/api/users/{id}:
 *  put:
 *     tags:
 *     - User Controller
@@ -93,7 +93,7 @@ userRoutes.put("/:id", authMiddleware, update)
 
 /**
 * @swagger
-* /api/users/{id}:
+* /v1/api/users/{id}:
 *  get:
 *     tags:
 *     - User Controller

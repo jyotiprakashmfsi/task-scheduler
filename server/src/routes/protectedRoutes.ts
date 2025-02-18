@@ -5,7 +5,7 @@ const protectedRouter = Router();
 
 /**
 * @swagger
-* /api/testAuth/test:
+* /v1/api/testAuth/test:
 *   get:
 *     tags:
 *       - Protected Routes

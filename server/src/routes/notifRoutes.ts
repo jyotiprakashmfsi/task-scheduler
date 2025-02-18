@@ -6,7 +6,7 @@ const notifRouter = Router();
 
 /**
 * @swagger
-* /api/notifications/approaching/{id}:
+* /v1/api/notifications/approaching/{id}:
 *   get:
 *     tags:
 *       - Notification Routes
@@ -43,7 +43,7 @@ const notifRouter = Router();
 *         description: User not found
 *       500:
 *         description: Internal server error
-* /api/notifications/overdue/{id}:
+* /v1/api/notifications/overdue/{id}:
 *   get:
 *     tags:
 *       - Notification Routes

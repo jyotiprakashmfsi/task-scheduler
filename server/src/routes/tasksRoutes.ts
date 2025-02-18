@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { authMiddleware } from "../middleware/authMiddleware";
-import { createTask, deleteTask, getTaskById, getTasks, markDone, unmarkDone, updateTask } from "../controller/tasksManage";
+import { createTask, deleteTask, getTaskById, getTasks, markDone, unmarkDone, updateTask } from "../controller/taskController";
 
 const taskRoutes = Router();
 
@@ -47,7 +47,7 @@ const taskRoutes = Router();
 *         user_id:
 *           type: integer
 *           description: UserId of user creating task   
-* /api/tasks:
+* /v1/api/tasks:
 *   post:
 *     tags:
 *     - Task Controller
@@ -76,7 +76,7 @@ const taskRoutes = Router();
 *         description: Unauthorized
 *       500:
 *         description: Server Error
-* /api/tasks/all/{user_id}?page={page}&limit={limit}:
+* /v1/api/tasks/all/{user_id}?page={page}&limit={limit}:
 *   get:
 *     tags:
 *     - Task Controller
@@ -119,7 +119,7 @@ const taskRoutes = Router();
 *         description: Unauthorized
 *       500:
 *         description: Server Error
-* /api/tasks/{id}:
+* /v1/api/tasks/{id}:
 *   get:
 *     tags:
 *     - Task Controller
@@ -216,7 +216,7 @@ const taskRoutes = Router();
 *         description: Task not found
 *       500:
 *         description: Server Error
-* /api/tasks/{id}/mark-done:
+* /v1/api/tasks/{id}/mark-done:
 *   put:
 *     tags:
 *     - Task Controller
@@ -245,7 +245,7 @@ const taskRoutes = Router();
 *         description: Task not found
 *       500:
 *         description: Server Error
-* /api/tasks/{id}/unmark-done:
+* /v1/api/tasks/{id}/unmark-done:
 *   put:
 *     tags:
 *     - Task Controller

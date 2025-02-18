@@ -5,7 +5,6 @@ import { Task } from '../../types/task';
  * Modal for tasks component
  * User must be logged in to view this component
  */
-
 interface TaskModalProps {
     isOpen: boolean;
     onClose: () => void;
@@ -26,7 +25,7 @@ const TaskModal: React.FC<TaskModalProps> = ({
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+        <div className="fixed inset-0 bg-black/50 bg-opacity-50 flex items-center justify-center p-4 z-50">
             <div className="bg-white rounded-lg p-6 w-full max-w-md">
                 <h2 className="text-xl font-semibold mb-4">
                     {isEditing ? "Edit Task" : "Add New Task"}

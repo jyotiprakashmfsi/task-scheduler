@@ -10,6 +10,8 @@ import { useUser } from "../context/UserContext";
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
+
+
 export default function Sidebar() {
   const { user, logout } = useUser();
   const [showDropdown, setShowDropdown] = useState(false);

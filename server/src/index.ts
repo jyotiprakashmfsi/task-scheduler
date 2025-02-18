@@ -39,8 +39,8 @@ const swaggerOptions = {
 };
 
 
-app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerJsdoc(swaggerOptions)));
-app.use("/api", appRouter);
+app.use("/v1/docs", swaggerUi.serve, swaggerUi.setup(swaggerJsdoc(swaggerOptions)));
+app.use("/v1/api", appRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
