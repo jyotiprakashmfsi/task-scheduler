@@ -1,4 +1,3 @@
-import { sequelize } from "../model/server";
 import { NotificationRepository } from "../repository/notificationRepository";
 import { Task } from "../types/task";
 

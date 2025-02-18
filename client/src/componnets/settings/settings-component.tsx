@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useUser } from "../../context/UserContext";
 import { usersService } from "../../services/user/api";
 import { useNavigate } from "react-router-dom";
+import { UserForm } from "../../types/user";
 
-interface UserForm {
-  fname: string;
-  email: string;
-  contact: string;
-  dob: string;
-}
+
+/**
+ * Component for user settings
+ * User must be logged in to view this component
+ */
 
 export default function SettingsComponent() {
   const { user, token, logout } = useUser();

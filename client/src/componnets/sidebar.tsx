@@ -25,7 +25,6 @@ export default function Sidebar() {
       label: "Dashboard",
       icon: <RiDashboardLine size={20} />,
     },
-    // { path: "/history", label: "History", icon: <RiHistoryLine size={20} /> },
     {
       path: "/settings",
       label: "Settings",
